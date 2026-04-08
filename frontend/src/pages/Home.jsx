@@ -61,7 +61,7 @@ const Home = () => {
       </main>
 
       <footer className="home-footer">
-        <p>&copy; {new Date().getFullYear()} My Persnal Notes. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} My Personal Notes. All rights reserved.</p>
       </footer>
     </div>
   );

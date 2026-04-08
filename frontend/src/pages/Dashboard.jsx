@@ -84,7 +84,7 @@ const Dashboard = () => {
   return (
     <div className="app-layout">
       {/* Left Sidebar */}
-      <aside className="sidebar desktop-only">
+      <aside className="sidebar">
         <div className="user-avatar">{userInitials}</div>
         <button className={`nav-item ${activeTab === 'notes' ? 'active' : ''}`} onClick={() => setActiveTab('notes')} title="Notes"><Home size={22} /></button>
         <button className={`nav-item ${activeTab === 'quick-add' ? 'active' : ''}`} onClick={() => setActiveTab('quick-add')} title="Quick Add Note"><Plus size={22} /></button>
@@ -98,22 +98,18 @@ const Dashboard = () => {
           <div className="header-left">
             <div className="user-avatar-small">{userInitials}</div>
           </div>
-          <h1>My Persnal Notes</h1>
+          <h1>My Personal Notes</h1>
           <div className="header-right">
             <button className="header-btn"><Search size={22} /></button>
             <button className="header-btn" onClick={() => setShowRightSidebar(!showRightSidebar)}><Settings size={22} /></button>
           </div>
         </header>
 
-        <nav className="mobile-tabs">
-          <button className={`tab-item ${activeTab === 'notes' ? 'active' : ''}`} onClick={() => setActiveTab('notes')}>Notes</button>
-          <button className={`tab-item ${activeTab === 'quick-add' ? 'active' : ''}`} onClick={() => setActiveTab('quick-add')}>Quick Add</button>
-          <button className={`tab-item ${activeTab === 'manage' ? 'active' : ''}`} onClick={() => setActiveTab('manage')}>Manage</button>
-        </nav>
+
 
         <div className="content-container">
           {/* Quick Add Section */}
-          <div className={`quick-add-section ${(activeTab === 'quick-add' || activeTab === 'notes') ? 'show' : 'hide'}`}>
+          <div className={`quick-add-section ${activeTab === 'quick-add' ? 'show' : 'hide-on-mobile'}`}>
             <div className="quick-add-card">
               <div className="quick-add-header">
                 <span>Quick Add Note</span>
@@ -151,16 +147,7 @@ const Dashboard = () => {
             </div>
           </div>
 
-          {/* Manage Tab Content */}
-          <div className={`manage-section ${activeTab === 'manage' ? 'show' : 'hide'}`}>
-            <div className="manage-card">
-              <h3>Account Settings</h3>
-              <p>Logged in as: <strong>{user?.username}</strong></p>
-              <button className="btn-danger" style={{ marginTop: '1rem', width: '100%' }} onClick={logout}>
-                <LogOut size={16} /> Log Out
-              </button>
-            </div>
-          </div>
+
 
           {/* Notes Section (Grid or List) */}
           <div className={`notes-list-section ${activeTab === 'notes' ? 'show' : 'hide'}`}>
@@ -205,17 +192,27 @@ const Dashboard = () => {
             )}
           </div>
 
-          <div className="fab-container">
-            <button className="fab-btn" onClick={() => setActiveTab('quick-add')}><Plus size={28} /></button>
-          </div>
 
-          <div className="more-btn-container">
-            <button className="more-pill">More</button>
-          </div>
+
+
         </div>
 
         {/* Right Sidebar */}
         <aside className={`right-sidebar ${showRightSidebar ? 'open' : ''}`}>
+          <div className="settings-section">
+            <h3>Account</h3>
+            <div className="user-profile-mini">
+              <div className="user-avatar-small" style={{ width: '40px', height: '40px', fontSize: '1rem' }}>{userInitials}</div>
+              <div className="user-info-text">
+                <span className="username">{user?.username}</span>
+                <span className="user-email">Free Plan</span>
+              </div>
+            </div>
+            <button className="btn-danger" style={{ marginTop: '1rem', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem' }} onClick={logout}>
+              <LogOut size={16} /> Sign Out
+            </button>
+          </div>
+
           <div className="settings-section">
             <h3>Quick Settings</h3>
             <div className="view-toggle">
@@ -248,6 +245,12 @@ const Dashboard = () => {
             </div>
           </div>
         </aside>
+
+        {/* Sidebar Overlay */}
+        <div 
+          className={`sidebar-overlay ${showRightSidebar ? 'show' : ''}`} 
+          onClick={() => setShowRightSidebar(false)}
+        ></div>
       </main>
 
       {/* Edit Modal */}
